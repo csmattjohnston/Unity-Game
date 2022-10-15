@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 direction;
     public float speed = 8;
     public float jumpForce = 10;
-    public float gravity = -20;
+    public float gravity = -30;
     public Transform groundCheck;
     public LayerMask groundLayer;
     public bool ableToDoubleJump = true;
