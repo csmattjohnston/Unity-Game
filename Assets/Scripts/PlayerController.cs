@@ -16,10 +16,7 @@ public class PlayerController : MonoBehaviour
     public bool ableToDoubleJump = true;
     public Animator animator;
     public Transform model;
-    void Start()
-    {
 
-    }
 
     // Update is called once per frame
     void Update()
@@ -37,7 +34,11 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetButtonDown("Jump"))
             {
-                direction.y = jumpForce;
+                Jump();
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                animator.SetTrigger("fireBallAttack");
             }
         }
         else
@@ -45,17 +46,30 @@ public class PlayerController : MonoBehaviour
             direction.y += gravity * Time.deltaTime;
             if (ableToDoubleJump & Input.GetButtonDown("Jump"))
             {
-                animator.SetTrigger("doubleJump");
-                direction.y = jumpForce;
-                ableToDoubleJump = false;
+                DoubleJump();
             }
         }
-
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Fireball Attack"))
+            return;
+        //flip player
         if (hInput != 0)
         {
             Quaternion newRotation = Quaternion.LookRotation(new Vector3(hInput, 0, 0));
             model.rotation = newRotation;
         }
+        //move player
         controller.Move(direction * Time.deltaTime);
+    }
+
+    private void DoubleJump()
+    {
+        animator.SetTrigger("doubleJump");
+        direction.y = jumpForce;
+        ableToDoubleJump = false;
+    }
+
+    private void Jump()
+    {
+        direction.y = jumpForce;
     }
 }
